@@ -551,7 +551,7 @@ const Work = () => {
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    className="group relative aspect-[2/3] perspective-1000"
+                    className="group relative aspect-[2/3]"
                   >
                     {/* Card Effect */}
                     <div className="relative w-full h-full transition-all duration-500 hover:scale-[1.02]">
@@ -565,12 +565,12 @@ const Work = () => {
                             <img 
                               src={project.image} 
                               alt={project.title} 
-                              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                              className="w-full h-full object-cover transition-transform duration-700 hover:scale-105 opacity-90"
                               referrerPolicy="no-referrer"
                             />
                           
-                          {/* Paper Texture Overlay */}
-                          <div className="absolute inset-0 pointer-events-none opacity-30 mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]" />
+                          {/* Paper Texture Overlay - simplified */}
+                          <div className="absolute inset-0 pointer-events-none opacity-20 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]" />
                           
                           {/* Dark Gradient Overlay for Text Legibility */}
                           <div className="absolute inset-0 bg-gradient-to-t from-maroon-dark via-maroon-dark/20 to-transparent opacity-90" />
