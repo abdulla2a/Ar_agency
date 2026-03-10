@@ -690,7 +690,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <div className="relative">
+    <div className="relative overflow-x-hidden">
       <AnimatePresence>
         {loading && <LoadingScreen onComplete={() => setLoading(false)} />}
       </AnimatePresence>
@@ -700,6 +700,7 @@ export default function App() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
+          className="overflow-x-hidden"
         >
           <Navbar />
           <main>
