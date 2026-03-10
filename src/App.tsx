@@ -440,12 +440,12 @@ const Work = () => {
   const [itemsPerPage, setItemsPerPage] = useState(3);
   
   const projects = [
-    { title: "Ar Agency", category: "Branding", image: "/branding.jpg" },
-    { title: "T-Shirt Ar", category: "Fashion", image: "/fashion.jpg" },
-    { title: "Photo Manipulation", category: "Design", image: "/design.jpg" },
-    { title: "branding Energy", category: "Energy Drink", image: "/energy.jpg" },
-    { title: "Callender Ramadan", category: "Callender", image: "/calender.jpg" },
-    { title: "MENU", category: "healthy bites", image: "/healthy.jpg" }
+    { title: "Ar Agency", category: "Branding", image: "https://i.ibb.co/x8whjGZd/a05834d55bfb.jpg" },
+    { title: "T-Shirt Ar", category: "Fashion", image: "https://i.ibb.co/NGNSBgg/d85aad9f9d52.jpg" },
+    { title: "Photo Manipulation", category: "Design", image: "https://i.ibb.co/5hdR0gGS/0558a36bb25e.jpg" },
+    { title: "branding Energy", category: "Energy Drink", image: "https://i.ibb.co/9kZmMMV3/99ff4c8ad4db.jpg" },
+    { title: "Callender Ramadan", category: "Callender", image: "https://i.ibb.co/0R9hCtkf/05c4c249c5d2.jpg" },
+    { title: "MENU", category: "healthy bites", image: "https://i.ibb.co/xKNDf0LY/392be71c1f41.jpg" }
   ];
 
   useEffect(() => {
