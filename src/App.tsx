@@ -440,12 +440,12 @@ const Work = () => {
   const [itemsPerPage, setItemsPerPage] = useState(3);
   
   const projects = [
-    { title: "Ar Agency", category: "Branding", image: "/img/branding.png" },
-    { title: "T-Shirt Ar", category: "Fashion", image: "/img/fashion.png" },
-    { title: "Photo Manipulation", category: "Design", image: "/img/design.png" },
-    { title: "branding Energy", category: "Energy Drink", image: "/img/energy.png" },
-    { title: "Callender Ramadan", category: "Callender", image: "/img/calender.png" },
-    { title: "MENU", category: "healthy bites", image: "/img/healthy.png" }
+    { title: "Ar Agency", category: "Branding", image: "/branding.png" },
+    { title: "T-Shirt Ar", category: "Fashion", image: "/fashion.png" },
+    { title: "Photo Manipulation", category: "Design", image: "/design.png" },
+    { title: "branding Energy", category: "Energy Drink", image: "/energy.png" },
+    { title: "Callender Ramadan", category: "Callender", image: "/calender.png" },
+    { title: "MENU", category: "healthy bites", image: "/healthy.png" }
   ];
 
   useEffect(() => {
