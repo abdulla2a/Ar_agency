@@ -437,7 +437,6 @@ const Services = () => {
 
 const Work = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(3);
   
   const projects = [
     { title: "Ar Agency", category: "Branding", image: "https://i.ibb.co/x8whjGZd/a05834d55bfb.jpg" },
@@ -448,172 +447,206 @@ const Work = () => {
     { title: "MENU", category: "healthy bites", image: "https://i.ibb.co/xKNDf0LY/392be71c1f41.jpg" }
   ];
 
-  // Create infinite loop by triplicating projects
-  const extendedProjects = [...projects, ...projects, ...projects];
-  const totalSlides = projects.length;
-  const middleOffset = totalSlides;
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) setItemsPerPage(1);
-      else if (window.innerWidth < 1024) setItemsPerPage(2);
-      else setItemsPerPage(3);
-    };
-    
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   const nextSlide = () => {
-    setCurrentIndex((prev) => {
-      const next = prev + 1;
-      // If we reach the end of middle section, reset to start of middle section
-      if (next >= middleOffset + totalSlides - itemsPerPage) {
-        return middleOffset;
-      }
-      return next;
-    });
+    setCurrentIndex((prev) => (prev + 1) % projects.length);
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => {
-      const next = prev - 1;
-      // If we go before middle section, go to end of middle section
-      if (next < middleOffset) {
-        return middleOffset + totalSlides - itemsPerPage;
-      }
-      return next;
-    });
+    setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
   };
 
   useEffect(() => {
-    // Start from middle section for infinite loop
-    setCurrentIndex(middleOffset);
-  }, [itemsPerPage]);
-
-  useEffect(() => {
-    const timer = setInterval(nextSlide, 3000);
+    const timer = setInterval(nextSlide, 4000);
     return () => clearInterval(timer);
-  }, [itemsPerPage]);
+  }, []);
+
+  const getCardPosition = (index: number) => {
+    const diff = index - currentIndex;
+    const normalizedDiff = ((diff + projects.length) % projects.length);
+    const adjustedDiff = normalizedDiff > projects.length / 2 
+      ? normalizedDiff - projects.length 
+      : normalizedDiff;
+
+    const isActive = adjustedDiff === 0;
+    const isAbove = adjustedDiff === -1 || adjustedDiff === projects.length - 1;
+    const isBelow = adjustedDiff === 1 || adjustedDiff === -(projects.length - 1);
+    const isFar = Math.abs(adjustedDiff) >= 2;
+
+    if (isFar) {
+      return {
+        y: adjustedDiff > 0 ? -350 : 350,
+        scale: 0.7,
+        opacity: 0,
+        zIndex: 0,
+        rotateX: adjustedDiff > 0 ? 20 : -20,
+      };
+    }
+
+    if (isActive) {
+      return {
+        y: 0,
+        scale: 1,
+        opacity: 1,
+        zIndex: 30,
+        rotateX: 0,
+      };
+    }
+
+    if (isAbove) {
+      return {
+        y: -160,
+        scale: 0.9,
+        opacity: 0.8,
+        zIndex: 20,
+        rotateX: 10,
+      };
+    }
+
+    if (isBelow) {
+      return {
+        y: 160,
+        scale: 0.9,
+        opacity: 0.8,
+        zIndex: 20,
+        rotateX: -10,
+      };
+    }
+
+    return {
+      y: adjustedDiff * 200,
+      scale: 0.75,
+      opacity: 0.5,
+      zIndex: 10,
+      rotateX: adjustedDiff > 0 ? 15 : -15,
+    };
+  };
 
   return (
     <section id="work" className="py-32 bg-maroon-rich/10 px-6 relative overflow-hidden">
-      {/* Decorative background element */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-maroon-glow/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
+      {/* Ambient Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-maroon-glow/5 rounded-full blur-[150px] pointer-events-none" />
       
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="mb-24 flex flex-col md:flex-row justify-between items-end gap-8">
-          <div className="text-center md:text-left">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="inline-block px-4 py-1 rounded-full border border-maroon-glow/30 bg-maroon-glow/5 text-maroon-glow text-[10px] uppercase tracking-[0.4em] mb-6"
-            >
-              Portfolio
-            </motion.div>
-            <h2 className="text-6xl md:text-8xl font-serif italic text-cream mb-4 text-glow-cream">Selected Work</h2>
-            <p className="text-cream-muted max-w-xl font-light text-lg leading-relaxed">
-              A curated collection of digital masterpieces, sliding through excellence.
-            </p>
-          </div>
+      <div className="max-w-4xl mx-auto relative z-10">
+        <div className="mb-16 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-block px-4 py-1 rounded-full border border-maroon-glow/30 bg-maroon-glow/5 text-maroon-glow text-[10px] uppercase tracking-[0.4em] mb-6"
+          >
+            Portfolio
+          </motion.div>
+          <h2 className="text-6xl md:text-8xl font-serif italic text-cream mb-4 text-glow-cream">Selected Work</h2>
+          <p className="text-cream-muted max-w-xl mx-auto font-light text-lg">
+            Vertical gallery of creative excellence.
+          </p>
         </div>
 
-        <div className="relative group/slider">
-          {/* Navigation Arrows - Repositioned to sides and always visible for better UX */}
+        {/* Vertical Stack */}
+        <div className="relative h-[600px] perspective-[1200px]">
+          
+          {/* Top Arrow */}
           <button 
             onClick={prevSlide}
-            className="absolute -left-4 md:-left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-16 md:h-16 rounded-full border border-cream/20 bg-maroon-dark/60 backdrop-blur-md flex items-center justify-center text-cream hover:bg-cream hover:text-maroon-dark transition-all duration-500 group shadow-xl"
+            className="absolute top-0 left-1/2 -translate-x-1/2 z-40 w-12 h-12 rounded-full border border-cream/20 bg-maroon-dark/80 backdrop-blur-md flex items-center justify-center text-cream hover:bg-cream hover:text-maroon-dark transition-all duration-500 shadow-xl"
           >
-            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 group-hover:-translate-x-1 transition-transform" />
+            <ChevronLeft className="w-5 h-5 rotate-90" />
           </button>
-          
+
+          {/* Bottom Arrow */}
           <button 
             onClick={nextSlide}
-            className="absolute -right-4 md:-right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-16 md:h-16 rounded-full border border-cream/20 bg-maroon-dark/60 backdrop-blur-md flex items-center justify-center text-cream hover:bg-cream hover:text-maroon-dark transition-all duration-500 group shadow-xl"
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 z-40 w-12 h-12 rounded-full border border-cream/20 bg-maroon-dark/80 backdrop-blur-md flex items-center justify-center text-cream hover:bg-cream hover:text-maroon-dark transition-all duration-500 shadow-xl"
           >
-            <ChevronRight className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-1 transition-transform" />
+            <ChevronRight className="w-5 h-5 rotate-90" />
           </button>
 
-          <div className="relative overflow-hidden">
-            <div 
-              className="flex transition-transform duration-1000 ease-in-out" 
-              style={{ transform: `translateX(-${(currentIndex * (100 / itemsPerPage))}%)` }}
-            >
-              {extendedProjects.map((project, i) => (
-                <div
+          {/* Cards */}
+          <div className="absolute inset-[60px] flex items-center justify-center preserve-3d">
+            {projects.map((project, i) => {
+              const pos = getCardPosition(i);
+              const isActive = i === currentIndex;
+              
+              return (
+                <motion.div
                   key={i}
-                  className="flex-none px-4"
-                  style={{ width: `${100 / itemsPerPage}%` }}
+                  className="absolute w-full max-w-[300px] aspect-[4/5] cursor-pointer"
+                  animate={{
+                    y: pos.y,
+                    scale: pos.scale,
+                    opacity: pos.opacity,
+                    rotateX: pos.rotateX,
+                    zIndex: pos.zIndex,
+                  }}
+                  transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  onClick={() => setCurrentIndex(i)}
+                  style={{ zIndex: pos.zIndex }}
                 >
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    className="group relative aspect-[2/3] perspective-1000"
-                  >
-                    {/* The "Thick Paper" Card Effect */}
-                    <div className="relative w-full h-full transition-all duration-700 preserve-3d group-hover:rotate-y-6">
-                      {/* Stacked Paper Effect (Thick Corner/Edge) */}
-                      <div className="absolute inset-0 bg-cream/20 translate-x-2 translate-y-2 rounded-sm -z-10" />
-                      <div className="absolute inset-0 bg-cream/10 translate-x-4 translate-y-4 rounded-sm -z-20" />
-                      
-                      {/* Main Card Body */}
-                      <div className="relative w-full h-full bg-cream p-[3px] rounded-sm overflow-hidden shadow-[20px_20px_40px_rgba(0,0,0,0.6)] border-r-[8px] border-b-[8px] border-black/40">
-                        <div className="relative w-full h-full overflow-hidden rounded-sm bg-maroon-dark">
-                            <img 
-                              src={project.image} 
-                              alt={project.title} 
-                              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-80 group-hover:opacity-100"
-                              referrerPolicy="no-referrer"
-                            />
-                          
-                          {/* Paper Texture Overlay */}
-                          <div className="absolute inset-0 pointer-events-none opacity-30 mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]" />
-                          
-                          {/* Dark Gradient Overlay for Text Legibility */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-maroon-dark via-maroon-dark/20 to-transparent opacity-90" />
-                          
-                          {/* Internal Content */}
-                          <div className="absolute inset-0 flex flex-col justify-end p-10">
-                            <motion.div 
-                              initial={{ opacity: 0, y: 20 }}
-                              whileInView={{ opacity: 1, y: 0 }}
-                              className="space-y-2"
-                            >
-                              <div className="text-maroon-glow text-[10px] uppercase tracking-[0.4em] font-bold">
-                                {project.category}
-                              </div>
-                              <h3 className="text-4xl font-serif italic text-cream text-glow-cream leading-tight">
-                                {project.title}
-                              </h3>
-                              <div className="pt-6 overflow-hidden">
-                                <div className="w-12 h-[1px] bg-cream/50 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-700" />
-                              </div>
-                            </motion.div>
-                          </div>
-
-                          {/* Corner effects removed to eliminate white box */}
+                  {/* Glow for Active */}
+                  {isActive && (
+                    <motion.div
+                      className="absolute -inset-4 bg-maroon-glow/20 rounded-2xl blur-2xl"
+                      animate={{ opacity: [0.3, 0.5, 0.3] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                  )}
+                  
+                  <div className="relative w-full h-full rounded-xl overflow-hidden shadow-2xl bg-maroon-dark border border-cream/10">
+                    {/* Shine */}
+                    {isActive && (
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-transparent z-20 pointer-events-none"
+                        initial={{ y: "-100%" }}
+                        animate={{ y: "200%" }}
+                        transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
+                      />
+                    )}
+                    
+                    <img 
+                      src={project.image} 
+                      alt={project.title} 
+                      className={`w-full h-full object-cover transition-all duration-500 ${isActive ? 'scale-105 grayscale-0' : 'scale-100 grayscale-[40%]'}`}
+                      referrerPolicy="no-referrer"
+                    />
+                    
+                    <div className="absolute inset-0 bg-gradient-to-t from-maroon-dark via-maroon-dark/20 to-transparent opacity-80" />
+                    
+                    <div className="absolute inset-0 flex flex-col justify-end p-6">
+                      <motion.div
+                        animate={{ y: isActive ? 0 : 10, opacity: isActive ? 1 : 0.6 }}
+                        transition={{ duration: 0.4 }}
+                      >
+                        <div className="text-maroon-glow text-[10px] uppercase tracking-[0.3em] font-bold mb-1">
+                          {project.category}
                         </div>
-                      </div>
+                        <h3 className={`font-serif italic text-cream leading-tight ${isActive ? 'text-3xl' : 'text-2xl'}`}>
+                          {project.title}
+                        </h3>
+                      </motion.div>
                     </div>
-                  </motion.div>
-                </div>
-              ))}
-            </div>
+                    
+                    {/* Number */}
+                    <div className="absolute top-4 right-4 text-5xl font-serif italic text-cream/10">
+                      {String(i + 1).padStart(2, '0')}
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
 
-        {/* Slider Indicators - simplified for infinite loop */}
-        <div className="mt-16 flex justify-center gap-3">
-          {projects.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentIndex(middleOffset + i)}
-              className={`h-1 transition-all duration-500 rounded-full ${(currentIndex - middleOffset) % totalSlides === i ? 'w-12 bg-maroon-glow' : 'w-4 bg-cream/20'}`}
+        {/* Progress */}
+        <div className="mt-8 flex justify-center items-center gap-4">
+          <span className="text-cream/40 text-sm font-mono">{String(currentIndex + 1).padStart(2, '0')}</span>
+          <div className="w-32 h-1 bg-cream/10 rounded-full overflow-hidden">
+            <motion.div 
+              className="h-full bg-maroon-glow rounded-full"
+              animate={{ width: `${((currentIndex + 1) / projects.length) * 100}%` }}
+              transition={{ duration: 0.5 }}
             />
-          ))}
+          </div>
+          <span className="text-cream/40 text-sm font-mono">{String(projects.length).padStart(2, '0')}</span>
         </div>
       </div>
     </section>
