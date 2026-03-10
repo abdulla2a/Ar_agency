@@ -439,9 +439,6 @@ const Work = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
   
   const projects = [
     { title: "Ar Agency", category: "Branding", image: "https://i.ibb.co/x8whjGZd/a05834d55bfb.jpg" },
@@ -452,13 +449,6 @@ const Work = () => {
     { title: "MENU", category: "healthy bites", image: "https://i.ibb.co/xKNDf0LY/392be71c1f41.jpg" }
   ];
 
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % projects.length);
   };
@@ -467,31 +457,12 @@ const Work = () => {
     setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
   };
 
-  // Touch handlers for mobile swipe
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchEnd = () => {
-    if (touchStart - touchEnd > 75) {
-      nextSlide();
-    }
-    if (touchStart - touchEnd < -75) {
-      prevSlide();
-    }
-  };
-
   useEffect(() => {
     const timer = setInterval(nextSlide, 4000);
     return () => clearInterval(timer);
   }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (isMobile) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
     const y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
@@ -510,16 +481,9 @@ const Work = () => {
     const isRight = adjustedDiff === 1 || adjustedDiff === -(projects.length - 1);
     const isFar = Math.abs(adjustedDiff) >= 2;
 
-    // Mobile adjustments
-    const xOffset = isMobile ? 180 : 280;
-    const zOffset = isMobile ? -30 : -50;
-    const rotateAngle = isMobile ? 20 : 35;
-    const scaleActive = isMobile ? 1.1 : 1.15;
-    const scaleSide = isMobile ? 0.75 : 0.8;
-
     if (isFar) {
       return {
-        transform: `translateX(${adjustedDiff * (isMobile ? 250 : 400)}px) translateZ(-300px) rotateY(${adjustedDiff > 0 ? -rotateAngle/2 : rotateAngle/2}deg) scale(0.5)`,
+        transform: `translateX(${adjustedDiff * 400}px) translateZ(-300px) rotateY(${adjustedDiff > 0 ? -25 : 25}deg) scale(0.5)`,
         opacity: 0,
         zIndex: 0,
       };
@@ -527,7 +491,7 @@ const Work = () => {
 
     if (isActive) {
       return {
-        transform: `translateX(0px) translateZ(${isMobile ? 50 : 100}px) rotateY(0deg) scale(${scaleActive})`,
+        transform: `translateX(0px) translateZ(100px) rotateY(0deg) scale(1.15)`,
         opacity: 1,
         zIndex: 30,
       };
@@ -535,22 +499,22 @@ const Work = () => {
 
     if (isLeft) {
       return {
-        transform: `translateX(-${xOffset}px) translateZ(${zOffset}px) rotateY(${rotateAngle}deg) scale(${scaleSide})`,
-        opacity: isMobile ? 0.4 : 0.6,
+        transform: `translateX(-280px) translateZ(-50px) rotateY(35deg) scale(0.8)`,
+        opacity: 0.6,
         zIndex: 20,
       };
     }
 
     if (isRight) {
       return {
-        transform: `translateX(${xOffset}px) translateZ(${zOffset}px) rotateY(-${rotateAngle}deg) scale(${scaleSide})`,
-        opacity: isMobile ? 0.4 : 0.6,
+        transform: `translateX(280px) translateZ(-50px) rotateY(-35deg) scale(0.8)`,
+        opacity: 0.6,
         zIndex: 20,
       };
     }
 
     return {
-      transform: `translateX(${adjustedDiff * (isMobile ? 220 : 350)}px) translateZ(-100px) scale(0.6)`,
+      transform: `translateX(${adjustedDiff * 350}px) translateZ(-100px) scale(0.6)`,
       opacity: 0.3,
       zIndex: 10,
     };
@@ -611,13 +575,10 @@ const Work = () => {
 
         {/* 3D Carousel Container */}
         <div 
-          className="relative h-[400px] sm:h-[450px] md:h-[600px] perspective-[1200px] touch-pan-y"
+          className="relative h-[500px] md:h-[600px] perspective-[1200px]"
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => { setIsHovering(false); setMousePosition({ x: 0, y: 0 }); }}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
         >
           {/* Navigation Arrows */}
           <button 
