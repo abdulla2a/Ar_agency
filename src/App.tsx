@@ -448,6 +448,11 @@ const Work = () => {
     { title: "MENU", category: "healthy bites", image: "https://i.ibb.co/xKNDf0LY/392be71c1f41.jpg" }
   ];
 
+  // Create infinite loop by triplicating projects
+  const extendedProjects = [...projects, ...projects, ...projects];
+  const totalSlides = projects.length;
+  const middleOffset = totalSlides;
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) setItemsPerPage(1);
@@ -461,12 +466,31 @@ const Work = () => {
   }, []);
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % (projects.length - itemsPerPage + 1));
+    setCurrentIndex((prev) => {
+      const next = prev + 1;
+      // If we reach the end of middle section, reset to start of middle section
+      if (next >= middleOffset + totalSlides - itemsPerPage) {
+        return middleOffset;
+      }
+      return next;
+    });
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + (projects.length - itemsPerPage + 1)) % (projects.length - itemsPerPage + 1));
+    setCurrentIndex((prev) => {
+      const next = prev - 1;
+      // If we go before middle section, go to end of middle section
+      if (next < middleOffset) {
+        return middleOffset + totalSlides - itemsPerPage;
+      }
+      return next;
+    });
   };
+
+  useEffect(() => {
+    // Start from middle section for infinite loop
+    setCurrentIndex(middleOffset);
+  }, [itemsPerPage]);
 
   useEffect(() => {
     const timer = setInterval(nextSlide, 3000);
@@ -515,9 +539,9 @@ const Work = () => {
           <div className="relative overflow-hidden">
             <div 
               className="flex transition-transform duration-1000 ease-in-out" 
-              style={{ transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)` }}
+              style={{ transform: `translateX(-${(currentIndex * (100 / itemsPerPage))}%)` }}
             >
-              {projects.map((project, i) => (
+              {extendedProjects.map((project, i) => (
                 <div
                   key={i}
                   className="flex-none px-4"
@@ -581,13 +605,13 @@ const Work = () => {
           </div>
         </div>
 
-        {/* Slider Indicators */}
+        {/* Slider Indicators - simplified for infinite loop */}
         <div className="mt-16 flex justify-center gap-3">
-          {Array.from({ length: projects.length - itemsPerPage + 1 }).map((_, i) => (
+          {projects.map((_, i) => (
             <button
               key={i}
-              onClick={() => setCurrentIndex(i)}
-              className={`h-1 transition-all duration-500 rounded-full ${currentIndex === i ? 'w-12 bg-maroon-glow' : 'w-4 bg-cream/20'}`}
+              onClick={() => setCurrentIndex(middleOffset + i)}
+              className={`h-1 transition-all duration-500 rounded-full ${(currentIndex - middleOffset) % totalSlides === i ? 'w-12 bg-maroon-glow' : 'w-4 bg-cream/20'}`}
             />
           ))}
         </div>
