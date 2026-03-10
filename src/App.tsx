@@ -548,9 +548,10 @@ const Work = () => {
                   style={{ width: `${100 / itemsPerPage}%` }}
                 >
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
+                    initial={{ opacity: 0, y: 60 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
                     className="group relative aspect-[2/3]"
                   >
                     {/* Card Effect */}
