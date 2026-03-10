@@ -553,8 +553,8 @@ const Work = () => {
                     viewport={{ once: true }}
                     className="group relative aspect-[2/3] perspective-1000"
                   >
-                    {/* The "Thick Paper" Card Effect */}
-                    <div className="relative w-full h-full transition-all duration-700 preserve-3d group-hover:rotate-y-6">
+                    {/* Card Effect */}
+                    <div className="relative w-full h-full transition-all duration-500 hover:scale-[1.02]">
                       {/* Stacked Paper Effect (Thick Corner/Edge) */}
                       <div className="absolute inset-0 bg-cream/20 translate-x-2 translate-y-2 rounded-sm -z-10" />
                       <div className="absolute inset-0 bg-cream/10 translate-x-4 translate-y-4 rounded-sm -z-20" />
