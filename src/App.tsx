@@ -441,12 +441,12 @@ const Work = () => {
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
   
   const projects = [
-    { title: "Ar Agency", category: "Branding", image: "/branding.png" },
-    { title: "T-Shirt Ar", category: "Fashion", image: "/fashion.png" },
-    { title: "Photo Manipulation", category: "Design", image: "/design.png" },
-    { title: "branding Energy", category: "Energy Drink", image: "/energy.png" },
-    { title: "Callender Ramadan", category: "Callender", image: "/calender.png" },
-    { title: "MENU", category: "healthy bites", image: "/healthy.png" }
+    { title: "Ar Agency", category: "Branding", image: "/branding.jpg" },
+    { title: "T-Shirt Ar", category: "Fashion", image: "/fashion.jpg" },
+    { title: "Photo Manipulation", category: "Design", image: "/design.jpg" },
+    { title: "branding Energy", category: "Energy Drink", image: "/energy.jpg" },
+    { title: "Callender Ramadan", category: "Callender", image: "/calender.jpg" },
+    { title: "MENU", category: "healthy bites", image: "/healthy.jpg" }
   ];
 
   useEffect(() => {
