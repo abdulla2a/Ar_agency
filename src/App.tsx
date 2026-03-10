@@ -403,28 +403,27 @@ const Services = () => {
           {services.map((service, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ y: -10 }}
-              className="group relative p-10 rounded-[32px] bg-glass gradient-border overflow-hidden transition-all duration-500 hover:bg-white/[0.05]"
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, delay: i * 0.1, ease: "easeOut" }}
+              className="group relative p-10 rounded-[32px] bg-glass border border-white/10 overflow-hidden hover:border-maroon-glow/30 transition-colors duration-300"
             >
-              <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+              <div className="absolute top-0 right-0 p-6 opacity-10">
                 <span className="text-4xl font-serif italic text-cream">{i + 1}</span>
               </div>
               
               <div className="relative z-10">
-                <div className="w-14 h-14 rounded-2xl bg-maroon-rich/40 flex items-center justify-center text-maroon-glow mb-8 group-hover:bg-maroon-glow group-hover:text-white transition-all duration-500 shadow-xl">
+                <div className="w-14 h-14 rounded-2xl bg-maroon-rich/40 flex items-center justify-center text-maroon-glow mb-8">
                   {service.icon}
                 </div>
                 <div className="text-[9px] uppercase tracking-[0.3em] text-maroon-glow mb-2 font-bold">{service.tag}</div>
-                <h3 className="text-2xl font-serif italic text-cream mb-4 group-hover:text-glow-cream transition-all">{service.title}</h3>
+                <h3 className="text-2xl font-serif italic text-cream mb-4">{service.title}</h3>
                 <p className="text-cream-muted text-sm leading-relaxed font-light mb-8">{service.desc}</p>
                 
-                <div className="flex items-center space-x-2 text-[10px] uppercase tracking-widest text-cream/40 group-hover:text-cream transition-colors">
+                <div className="flex items-center space-x-2 text-[10px] uppercase tracking-widest text-cream/40">
                   <span>Learn More</span>
-                  <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-3 h-3" />
                 </div>
               </div>
             </motion.div>
