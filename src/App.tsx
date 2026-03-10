@@ -448,6 +448,11 @@ const Work = () => {
     { title: "MENU", category: "healthy bites", image: "https://i.ibb.co/xKNDf0LY/392be71c1f41.jpg" }
   ];
 
+  // Create infinite loop by triplicating projects
+  const extendedProjects = [...projects, ...projects, ...projects];
+  const totalSlides = projects.length;
+  const middleOffset = totalSlides;
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) setItemsPerPage(1);
