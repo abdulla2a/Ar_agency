@@ -570,9 +570,7 @@ const Work = () => {
                             </motion.div>
                           </div>
 
-                          {/* Corner "Thick" Detail - Filled Corner Effect */}
-                          <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-cream/30 to-transparent pointer-events-none" />
-                          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-black/40 to-transparent pointer-events-none" />
+                          {/* Corner effects removed to eliminate white box */}
                         </div>
                       </div>
                     </div>
