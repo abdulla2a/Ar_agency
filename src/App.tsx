@@ -438,6 +438,7 @@ const Services = () => {
 const Work = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
   
   const projects = [
     { title: "Ar Agency", category: "Branding", image: "/branding.png" },
@@ -538,12 +539,20 @@ const Work = () => {
                       {/* Main Card Body */}
                       <div className="relative w-full h-full bg-cream p-[3px] rounded-sm overflow-hidden shadow-[20px_20px_40px_rgba(0,0,0,0.6)] border-r-[8px] border-b-[8px] border-black/40">
                         <div className="relative w-full h-full overflow-hidden rounded-sm bg-maroon-dark">
-                          <img 
-                            src={project.image} 
-                            alt={project.title} 
-                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-80 group-hover:opacity-100"
-                            referrerPolicy="no-referrer"
-                          />
+                            {/* Loading skeleton */}
+                            {!loadedImages.has(i) && (
+                              <div className="absolute inset-0 bg-gradient-to-br from-maroon-dark/50 to-maroon-rich/30 animate-pulse flex items-center justify-center">
+                                <div className="w-12 h-12 border-2 border-maroon-glow/30 border-t-maroon-glow rounded-full animate-spin" />
+                              </div>
+                            )}
+                            <img 
+                              src={project.image} 
+                              alt={project.title} 
+                              className={`w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 ${loadedImages.has(i) ? 'opacity-80 group-hover:opacity-100' : 'opacity-0'}`}
+                              referrerPolicy="no-referrer"
+                              loading="lazy"
+                              onLoad={() => setLoadedImages(prev => new Set(prev).add(i))}
+                            />
                           
                           {/* Paper Texture Overlay */}
                           <div className="absolute inset-0 pointer-events-none opacity-30 mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]" />
