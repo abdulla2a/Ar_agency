@@ -407,7 +407,7 @@ const Services = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.5, delay: i * 0.1, ease: "easeOut" }}
-              className="group relative p-10 rounded-[32px] bg-glass border border-white/10 overflow-hidden hover:border-maroon-glow/30 transition-colors duration-300"
+              className="group relative p-10 rounded-[32px] bg-glass gradient-border overflow-hidden"
             >
               <div className="absolute top-0 right-0 p-6 opacity-10">
                 <span className="text-4xl font-serif italic text-cream">{i + 1}</span>
