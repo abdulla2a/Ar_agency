@@ -340,37 +340,43 @@ const Services = () => {
       title: "Web Development",
       desc: "Interactive websites with 3D touches and an unparalleled user experience.",
       icon: <Globe className="w-7 h-7" />,
-      tag: "Web 3.0"
+      tag: "Web 3.0",
+      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80"
     },
     {
       title: "Branding & Identity",
       desc: "We build a visual identity that tells your brand's story.",
       icon: <Palette className="w-7 h-7" />,
-      tag: "Branding"
+      tag: "Branding",
+      image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80"
     },
     {
       title: "Graphic Design",
       desc: "Posters and creative designs that catch the eye.",
       icon: <Layout className="w-7 h-7" />,
-      tag: "Design"
+      tag: "Design",
+      image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=800&q=80"
     },
     {
       title: "System Architecture",
       desc: "Integrated software solutions and smart systems for your business.",
       icon: <Cpu className="w-7 h-7" />,
-      tag: "Systems"
+      tag: "Systems",
+      image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80"
     },
     {
       title: "Software Development",
       desc: "Mobile and desktop applications with powerful performance.",
       icon: <Code className="w-7 h-7" />,
-      tag: "Software"
+      tag: "Software",
+      image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80"
     },
     {
       title: "AI Integration",
       desc: "Merging the latest AI technologies into your projects.",
       icon: <Sparkles className="w-7 h-7" />,
-      tag: "AI Core"
+      tag: "AI Core",
+      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80"
     }
   ];
 
@@ -409,6 +415,14 @@ const Services = () => {
               transition={{ duration: 0.5, delay: i * 0.1, ease: "easeOut" }}
               className="group relative p-10 rounded-[32px] bg-glass gradient-border overflow-hidden"
             >
+              {/* Background Image */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center opacity-20 group-hover:opacity-35 transition-opacity duration-500"
+                style={{ backgroundImage: `url(${service.image})` }}
+              />
+              {/* Dark Overlay */}
+              <div className="absolute inset-0 bg-maroon-dark/60" />
+              
               <div className="absolute top-0 right-0 p-6 opacity-10">
                 <span className="text-4xl font-serif italic text-cream">{i + 1}</span>
               </div>
@@ -419,12 +433,7 @@ const Services = () => {
                 </div>
                 <div className="text-[9px] uppercase tracking-[0.3em] text-maroon-glow mb-2 font-bold">{service.tag}</div>
                 <h3 className="text-2xl font-serif italic text-cream mb-4">{service.title}</h3>
-                <p className="text-cream-muted text-sm leading-relaxed font-light mb-8">{service.desc}</p>
-                
-                <div className="flex items-center space-x-2 text-[10px] uppercase tracking-widest text-cream/40">
-                  <span>Learn More</span>
-                  <ArrowRight className="w-3 h-3" />
-                </div>
+                <p className="text-cream-muted text-sm leading-relaxed font-light">{service.desc}</p>
               </div>
             </motion.div>
           ))}
